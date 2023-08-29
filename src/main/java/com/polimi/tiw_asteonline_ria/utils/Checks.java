@@ -1,11 +1,15 @@
 package com.polimi.tiw_asteonline_ria.utils;
 
 
+import com.polimi.tiw_asteonline_ria.beans.Item;
+
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
 
 public class Checks {
@@ -34,40 +38,50 @@ public class Checks {
     }
 
     public static String calculateTimeRemaining(Timestamp deadline) {
-        Date currentDate = new Date();
-        Duration duration = Duration.between(currentDate.toInstant(),deadline.toInstant());
+        Instant currentInstant = Instant.now();
+        Instant deadlineInstant = deadline.toInstant();
+        Duration duration = Duration.between(currentInstant, deadlineInstant);
 
-        if(duration.isNegative()){
+        if (duration.isNegative()) {
             return "Asta scaduta!";
         }
 
-        if (duration.toHours() == 0) {
-            return "Meno di 1 ora";
-        }
+        long days = duration.toDays();
+        long hours = duration.toHours() % 24;
+        long minutes = duration.toMinutes() % 60;
+        long seconds = duration.getSeconds() % 60;
+        String time = "";
 
-        String hours;
-        if(duration.toHoursPart() == 1){
-            hours = "1 ora";
+        if (days == 1) {
+            time = "1 giorno";
         } else {
-            hours = String.format("%d ore", duration.toHoursPart());
+            time = days + " giorni";
         }
-
-        if(duration.toDays() == 0){
-            return hours;
-        }
-
-        String days;
-        if(duration.toDays() == 1){
-            days = "1 giorno";
+        if (hours == 1) {
+            time += " 1 ora";
         } else {
-            days = String.format("%d giorni", duration.toDays());
+            time += " " + hours + " ore";
         }
+        if (minutes > 0) {
+            if(minutes == 1)
+                time += " 1 minuto";
+            else
+                time += " " + minutes + " minuti";
+        }else if(seconds > 0){
+            if(seconds == 1)
+                time += " 1 secondo";
+            else
+                time += " " + seconds + " secondi";
+        }
+        return time;
+    }
 
-        if(duration.toHoursPart() == 0){
-            return days;
-        } else {
-            return days + " e " + hours;
+    public static String createItemsCodeName(List<Item> items) {
+        String itemsCodeName = "";
+        for (Item item : items) {
+            itemsCodeName += "["+item.getCode() + "]" +"-" +item.getName() + " ";
         }
+        return itemsCodeName;
     }
 
 

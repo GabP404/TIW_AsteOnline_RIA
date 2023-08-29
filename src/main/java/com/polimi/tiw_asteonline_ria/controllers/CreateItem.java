@@ -1,4 +1,4 @@
-package com.polimi.tiw_asteonline_ria.api;
+package com.polimi.tiw_asteonline_ria.controllers;
 import com.google.gson.Gson;
 import com.polimi.tiw_asteonline_ria.beans.User;
 import com.polimi.tiw_asteonline_ria.dao.ItemDAO;

@@ -1,9 +1,10 @@
-package com.polimi.tiw_asteonline_ria.api;
+package com.polimi.tiw_asteonline_ria.controllers;
 import com.google.gson.Gson;
 import com.polimi.tiw_asteonline_ria.beans.Auction;
 import com.polimi.tiw_asteonline_ria.beans.User;
 import com.polimi.tiw_asteonline_ria.dao.AuctionDAO;
 import com.polimi.tiw_asteonline_ria.dao.ItemDAO;
+import com.polimi.tiw_asteonline_ria.utils.Checks;
 import com.polimi.tiw_asteonline_ria.utils.ConnectionHandler;
 
 import javax.servlet.ServletException;
@@ -16,14 +17,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-
-@WebServlet("/WonAuctions")
-public class WonAuctions extends HttpServlet {
-
+@WebServlet("/Search")
+public class Search extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
 
-    public WonAuctions() {
+    public Search() {
         super();
     }
 
@@ -34,26 +33,31 @@ public class WonAuctions extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        //int userID = (int) request.getSession().getAttribute("user_id");
         User user = (User) request.getSession().getAttribute("user");
         int userID = user.getId();
+
+        String search = request.getParameter("keyword");
+
+        if(search == null || search.isEmpty()){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
 
         AuctionDAO auctionDAO = new AuctionDAO(connection);
         ItemDAO itemDAO = new ItemDAO(connection);
         try {
-            List<Auction> auctions = auctionDAO.getAuctionsWonByUser(userID);
-
-            for (Auction auction : auctions) {
+            List<Auction> searchResults = auctionDAO.searchOpenAuctions(search, userID);
+            for (Auction auction : searchResults) {
                 auction.setItems(itemDAO.getItemsByAuctionId(auction.getId()));
-                auction.setItemsCodeName(auction.createItemsCodeName());
+                auction.setItemsCodeName(Checks.createItemsCodeName(auction.getItems()));
             }
-
             response.setContentType("application/json");
-            response.getWriter().write(new Gson().toJson(auctions));
+            response.getWriter().write(new Gson().toJson(searchResults));
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setContentType("application/json");
-            response.getWriter().write(new Gson().toJson(new Error("Cannot retrieve won auctions")));
+            response.getWriter().write(new Gson().toJson(new Error("Cannot to search auctions")));
             return;
         }
     }

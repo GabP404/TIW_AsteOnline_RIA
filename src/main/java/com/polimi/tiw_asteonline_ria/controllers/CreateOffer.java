@@ -1,4 +1,4 @@
-package com.polimi.tiw_asteonline_ria.api;
+package com.polimi.tiw_asteonline_ria.controllers;
 import com.google.gson.Gson;
 import com.polimi.tiw_asteonline_ria.beans.Auction;
 import com.polimi.tiw_asteonline_ria.beans.User;
@@ -102,7 +102,12 @@ public class CreateOffer extends HttpServlet {
             if(offer < auction.getMinOfferToMake()){
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 resp.setContentType("application/json");
-                resp.getWriter().println(new Gson().toJson(new Error("Offer must be greater than current max offer + minimum rise")));
+                if(offer < auction.getMinOfferToMake()){
+                    if (auction.getMinOfferToMake() == auction.getStartingPrice())
+                        resp.getWriter().println(new Gson().toJson(new Error("Offer must be greater than starting price")));
+                    else
+                        resp.getWriter().println(new Gson().toJson(new Error("Offer must be greater than current max offer + minimum rise")));
+                }
                 return;
             }
 

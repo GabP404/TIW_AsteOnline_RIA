@@ -5,7 +5,7 @@
     <title>Home - AsteOnline</title>
     <script src="js/utils.js"></script>
     <script src="js/home.js" defer></script>
-    <link href="styles/main.css" rel="stylesheet" type="text/css" />
+    <link href="styles/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <ul class="navbar">
@@ -18,61 +18,107 @@
 </ul>
 
 
-
-
 <div id="content">
-    <div id="buy-container">
-        <div class="flex">
-            <div class="half-width">
-                <h3>Ricerca</h3>
-                <form id="search-form" action="#">
-                    <input type="search" name="keyword" id="search" required>
-                    <input type="submit" value="Cerca">
-                </form>
-                <br>
-                <div id="search-results">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Oggetti trovati</th>
-                            <th>Scadenza</th>
-                            <th>Offerta massima</th>
-                            <th>Azioni</th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                    <p class="error-message"></p>
-                </div>
-            </div>
-            <div class="half-width">
-                <h3>Cliccati di recente</h3>
-                <div id="recently-viewed">
-                    <i id="no-recently-viewed">Non hai aperto alcuna asta negli ultimi 30 giorni.</i>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Oggetti</th>
-                            <th>Scadenza</th>
-                            <th>Offerta massima</th>
-                            <th>Azioni</th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
+    <div id="offers-auctions">
+        <div class="auction-top">
+            <h2>Offerte Asta #<span class="auction-id"></span></h2>
+            <div class="spacer"></div>
+            <button class="auction-close">Chiudi</button>
         </div>
+        <p><b>Stato:</b> <span class="auction-status"></span></p>
+        <p><b>Scadenza:</b> <span class="auction-deadline"></span></p>
+        <p><b>Prezzo di partenza:</b> <span class="auction-starting-price"></span></p>
+        <p><b>Rialzo minimo:</b> <span class="auction-minimum-rise"></span></p>
+        <p><b>Massima offerta attuale:</b> <span class="auction-max-offer"></span></p>
 
+        <h3>Articoli</h3>
+        <table class="auction-items-table">
+            <thead>
+            <tr>
+                <th>Immagine</th>
+                <th>Codice</th>
+                <th>Nome</th>
+                <th>Descrizione</th>
+                <th>Prezzo</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <h3>Offerte</h3>
+        <table class="auction-offer-table">
+            <thead>
+            <tr>
+                <th>Utente</th>
+                <th>Offerta</th>
+                <th>Data</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <i class="updating-message">In aggiornamento ogni 10 secondi...</i>
+        <i class="no-offer-message">Nessuna offerta pervenuta.</i>
+
+        <div id="auction-offer">
+            <h3>Fai un'offerta</h3>
+            <form action="#">
+                <label for="offer">Offerta: </label>
+                <input type="number" step="0.01" id="offer" name="offer" required>
+                <br><br>
+                <input type="submit" value="Invia">
+                <input type="hidden" name="auction_id">
+            </form>
+            <p class="error-message"></p>
+        </div>
+    </div>
+    <div id="buy-container">
+        <h3>Ricerca</h3>
+        <form id="search-form" action="#">
+            <input type="search" name="keyword" id="search" required>
+            <input type="submit" value="Cerca">
+        </form>
+        <br>
+        <div id="search-results">
+            <h3>Risultati ricerca</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Articoli trovati</th>
+                    <th>Scadenza</th>
+                    <th>Offerta massima</th>
+                    <th>Azioni</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <p class="error-message"></p>
+        </div>
+        <h3>Cliccati di recente</h3>
+        <div id="viewed-auctions">
+            <i id="no-viewed-auctions">Non hai aperto alcuna asta negli ultimi 30 giorni.</i>
+            <table>
+                <thead>
+                <tr>
+                    <th>Articoli</th>
+                    <th>Scadenza</th>
+                    <th>Offerta massima</th>
+                    <th>Azioni</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
         <div id="won-auctions">
             <h3>Aste aggiudicate</h3>
             <table>
                 <thead>
                 <tr>
-                    <th>Codice articolo</th>
+                    <th>Codice Asta</th>
+                    <th>Codice Articolo</th>
                     <th>Immagine</th>
                     <th>Nome articolo</th>
                     <th>Descrizione</th>
+                    <th>Prezzo articolo</th>
                     <th>Prezzo finale</th>
                 </tr>
                 </thead>
@@ -80,17 +126,87 @@
             </table>
             <p class="error-message"></p>
         </div>
-    </div>
 
+    </div>
+    <div id="auction-details">
+        <div class="auction-top">
+            <h2>Dettaglio asta #<span class="auction-id"></span></h2>
+            <div class="spacer"></div>
+            <button class="auction-close">Chiudi</button>
+        </div>
+        <p><b>Stato:</b> <span class="auction-status"></span></p>
+        <p><b>Scadenza:</b> <span class="auction-deadline"></span></p>
+        <p><b>Prezzo di partenza:</b> <span class="auction-starting-price"></span></p>
+        <p><b>Rialzo minimo:</b> <span class="auction-minimum-rise"></span></p>
+        <p><b>Massima offerta attuale:</b> <span class="auction-max-offer"></span></p>
+
+        <form action="#" id="auction-close-form">
+            <p>
+                <i>L'asta è scaduta.</i>
+                È necessario chiuderla per continuare.
+                <input type="submit" value="Chiudi">
+            </p>
+            <input type="hidden" name="auction_id">
+            <p class="error-message"></p>
+        </form>
+
+        <div id="auction-won-by">
+            <h3>Aggiudicatario</h3>
+            <i id="no-winner">L'asta non ha alcun aggiudicatario.</i>
+            <div id="winner-details">
+                <p>
+                    <b>Nome:</b>
+                    <span id="winner-fullname"></span>
+                </p>
+                <p>
+                    <b>Prezzo finale:</b>
+                    <span id="winner-final-price"></span>
+                </p>
+                <p>
+                    <b>Indirizzo di spedizione:</b>
+                    <span id="winner-address"></span>
+                </p>
+            </div>
+        </div>
+
+        <h3>Articoli</h3>
+        <table class="auction-items-table">
+            <thead>
+            <tr>
+                <th>Immagine</th>
+                <th>Codice</th>
+                <th>Nome</th>
+                <th>Descrizione</th>
+                <th>Prezzo</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <h3>Offerte</h3>
+        <table class="auction-offers-table">
+            <thead>
+            <tr>
+                <th>Utente</th>
+                <th>Offerta</th>
+                <th>Data</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <i class="updating-message">In aggiornamento ogni 10 secondi...</i>
+        <i class="no-offer-message">Nessuna offerta pervenuta.</i>
+
+    </div>
     <div id="sell-container">
-        <div id="your-auctions">
+        <div id="user-auctions">
             <h2>Le tue aste</h2>
             <h3>Aperte</h3>
             <i id="no-open-auctions">Al momento non hai aste aperte.</i>
-            <table id="your-open-auctions">
+            <table id="user-open-auctions">
                 <thead>
                 <tr>
-                    <th>Id Asta</th>
+                    <th>Codice Asta</th>
                     <th>Articoli</th>
                     <th>Aggiudicatario</th>
                     <th>Prezzo finale</th>
@@ -102,10 +218,10 @@
             </table>
             <h3>Chiuse</h3>
             <i id="no-closed-auctions">Non hai ancora chiuso alcuna asta.</i>
-            <table id="your-closed-auctions">
+            <table id="user-closed-auctions">
                 <thead>
                 <tr>
-                    <th>Id Asta</th>
+                    <th>Codice Asta</th>
                     <th>Articoli</th>
                     <th>Aggiudicatario</th>
                     <th>Prezzo finale</th>
@@ -143,7 +259,7 @@
                 <h3>Crea una nuova asta</h3>
                 <fieldset>
                     <legend>Seleziona uno o più articoli:</legend>
-                    <i id="no-items-available">Non hai ancora aggiunto alcun oggetto al tuo account.</i>
+                    <i id="no-items-available">Non hai ancora aggiunto alcun articolo al tuo account.</i>
                     <div id="items-list"></div>
                 </fieldset>
 
@@ -161,87 +277,6 @@
         </div>
     </div>
 
-    <div id="auction-details">
-        <div id="auction-details-top">
-            <h2>Dettaglio asta #<span id="auction-id"></span></h2>
-            <div class="spacer"></div>
-            <a href="#" id="auction-close">Chiudi ✖</a>
-        </div>
-        <p><b>Stato:</b> <span id="auction-status"></span></p>
-        <p><b>Scadenza:</b> <span id="auction-deadline"></span></p>
-        <p><b>Prezzo di partenza:</b> <span id="auction-starting-price"></span></p>
-        <p><b>Rialzo minimo:</b> <span id="auction-minimum-rise"></span></p>
-        <p><b>Massima offerta attuale:</b> <span id="auction-max-offer"></span></p>
-
-        <form action="#" id="auction-close-form">
-            <p>
-                <i>L'asta è scaduta.</i>
-                È necessario chiuderla per continuare.
-                <input type="submit" value="Chiudi">
-            </p>
-            <input type="hidden" name="auction_id">
-            <p class="error-message"></p>
-        </form>
-
-        <div id="auction-won-by">
-            <h3>Aggiudicatario</h3>
-            <i id="no-winner">L'asta non ha alcun aggiudicatario.</i>
-            <div id="winner-details">
-                <p>
-                    <b>Nome:</b>
-                    <span id="winner-fullname"></span>
-                </p>
-                <p>
-                    <b>Prezzo finale:</b>
-                    <span id="winner-final-price"></span>
-                </p>
-                <p>
-                    <b>Indirizzo di spedizione:</b>
-                    <span id="winner-address"></span>
-                </p>
-            </div>
-        </div>
-
-        <h3>Articoli</h3>
-        <table id="auction-items-table">
-            <thead>
-            <tr>
-                <th>Immagine</th>
-                <th>Codice</th>
-                <th>Nome</th>
-                <th>Descrizione</th>
-                <th>Prezzo</th>
-            </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-        <h3>Offerte</h3>
-        <table id="auction-offers-table">
-            <thead>
-            <tr>
-                <th>Utente</th>
-                <th>Offerta</th>
-                <th>Data</th>
-            </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <i id="updating-message">In aggiornamento ogni 10 secondi...</i>
-        <i id="no-offer-message">Nessuna offerta pervenuta.</i>
-
-        <div id="auction-offer">
-            <h3>Fai un'offerta</h3>
-            <form action="#">
-                <label for="offer">Offerta: </label>
-                <input type="number" step="0.01" id="offer" name="offer" required>
-                <br><br>
-                <input type="submit" value="Invia">
-                <input type="hidden" name="auction_id">
-            </form>
-            <p class="error-message"></p>
-        </div>
-    </div>
 </div>
 </body>
 </html>

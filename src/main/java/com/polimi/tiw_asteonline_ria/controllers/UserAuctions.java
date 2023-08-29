@@ -1,7 +1,10 @@
-package com.polimi.tiw_asteonline_ria.api;
+package com.polimi.tiw_asteonline_ria.controllers;
 import com.google.gson.Gson;
+import com.polimi.tiw_asteonline_ria.beans.Auction;
 import com.polimi.tiw_asteonline_ria.beans.User;
+import com.polimi.tiw_asteonline_ria.dao.AuctionDAO;
 import com.polimi.tiw_asteonline_ria.dao.ItemDAO;
+import com.polimi.tiw_asteonline_ria.utils.Checks;
 import com.polimi.tiw_asteonline_ria.utils.ConnectionHandler;
 
 import javax.servlet.ServletException;
@@ -12,9 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-@WebServlet("/AvailableItems")
-public class AvailableItems extends HttpServlet {
+@WebServlet("/UserAuctions")
+public class UserAuctions extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
@@ -29,14 +34,27 @@ public class AvailableItems extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
         int userID = user.getId();
 
+
+        AuctionDAO auctionDAO = new AuctionDAO(connection);
         ItemDAO itemDAO = new ItemDAO(connection);
         try {
+            List<Auction> openAuctions = auctionDAO.getAuctionsCreatedByUser(userID,1);
+            List<Auction> closedAuctions = auctionDAO.getAuctionsCreatedByUser(userID,0);
+            List<Auction> allAuctions = new ArrayList<>();
+            allAuctions.addAll(openAuctions);
+            allAuctions.addAll(closedAuctions);
+
+            for (Auction auction : allAuctions) {
+                auction.setItems(itemDAO.getItemsByAuctionId(auction.getId()));
+                auction.setItemsCodeName(Checks.createItemsCodeName(auction.getItems()));
+            }
+
             resp.setContentType("application/json");
-            resp.getWriter().write(new Gson().toJson(itemDAO.getItemsAvailableForAuction(userID)));
+            resp.getWriter().write(new Gson().toJson(allAuctions));
         } catch (SQLException e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             resp.setContentType("application/json");
-            resp.getWriter().write(new Gson().toJson(new Error("Cannot retrieve items")));
+            resp.getWriter().write(new Gson().toJson(new Error("Cannot retrieve won auctions")));
             return;
         }
     }

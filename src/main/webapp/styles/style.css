@@ -8,6 +8,48 @@ body {
     margin: 0;
 }
 
+.login-container {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+.login-container h2 {
+    text-align: center;
+}
+.form-group {
+    margin-bottom: 10px;
+}
+.form-group label {
+    display: block;
+}
+#username-login, #password-login {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.login-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #F4B183;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+#login-form {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
 #content {
     margin: 16px;
 }
@@ -36,6 +78,16 @@ textarea {
 }
 
 input[type="submit"] { /* submit buttons */
+    background-color: #F4B183;
+    border: none;
+    color: white;
+    padding: 14px 24px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.auction-close {
     background-color: #F4B183;
     border: none;
     color: white;
@@ -142,11 +194,16 @@ a:visited {
     padding: 24px;
 }
 
-#auction-details-top {
+#offers-auctions {
+    border: 1px solid #ccc;
+    padding: 24px;
+}
+
+.auction-top {
     display: flex;
 }
 
-#auction-details-top > h2 {
+.auction-top > h2 {
     margin-top: 0;
     margin-bottom: 0;
 }

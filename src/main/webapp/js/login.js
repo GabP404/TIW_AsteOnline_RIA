@@ -9,7 +9,7 @@ document.getElementById('login-form').addEventListener('submit', function (event
     submitButton.disabled = true;
 
     if(form.checkValidity()){
-        callAPI('POST', 'PerformLogin', form,
+        makeCall('POST', 'CheckLogin', form,
             function(req) {
                 switch (req.status) {
                     case 200: // Successful login

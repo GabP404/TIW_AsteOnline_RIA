@@ -1,13 +1,8 @@
-package com.polimi.tiw_asteonline_ria.api;
+package com.polimi.tiw_asteonline_ria.controllers;
 import com.google.gson.Gson;
 import com.polimi.tiw_asteonline_ria.beans.Auction;
-import com.polimi.tiw_asteonline_ria.beans.Item;
-import com.polimi.tiw_asteonline_ria.beans.Offer;
 import com.polimi.tiw_asteonline_ria.beans.User;
 import com.polimi.tiw_asteonline_ria.dao.AuctionDAO;
-import com.polimi.tiw_asteonline_ria.dao.ItemDAO;
-import com.polimi.tiw_asteonline_ria.dao.OfferDAO;
-import com.polimi.tiw_asteonline_ria.dao.UserDAO;
 import com.polimi.tiw_asteonline_ria.utils.ConnectionHandler;
 
 import javax.servlet.ServletException;
@@ -19,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.List;
 
 @WebServlet("/CloseAuction")
 @MultipartConfig

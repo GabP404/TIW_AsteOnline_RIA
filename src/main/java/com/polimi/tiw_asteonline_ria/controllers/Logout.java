@@ -1,4 +1,4 @@
-package com.polimi.tiw_asteonline_ria.api;
+package com.polimi.tiw_asteonline_ria.controllers;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

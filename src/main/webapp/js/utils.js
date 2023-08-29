@@ -8,7 +8,7 @@
  * @param form form to send (null if there is no form to send)
  * @param onloadCallback callback function to call when the request is done
  */
-function callAPI(method, url, form, onloadCallback) {
+function makeCall(method, url, form, onloadCallback) {
     let req = new XMLHttpRequest();
 
     req.onload = () => {

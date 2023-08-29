@@ -1,4 +1,4 @@
-package com.polimi.tiw_asteonline_ria.api;
+package com.polimi.tiw_asteonline_ria.controllers;
 
 import com.google.gson.Gson;
 import com.polimi.tiw_asteonline_ria.beans.User;
@@ -15,14 +15,14 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/PerformLogin")
+@WebServlet("/CheckLogin")
 @MultipartConfig
-public class PerformLogin extends HttpServlet {
+public class CheckLogin extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
 
-    public PerformLogin() {
+    public CheckLogin() {
         super();
     }
 

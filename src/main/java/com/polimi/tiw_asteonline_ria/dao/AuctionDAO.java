@@ -108,7 +108,7 @@ public class AuctionDAO {
 
     public List<Auction> searchOpenAuctions(String search, int userID) throws SQLException {
         List<Auction> auctions = new ArrayList<>();
-        String query = "SELECT detailed_auction.auction_id, detailed_auction.deadline, detailed_auction.minimum_rise, " +
+        String query = "SELECT DISTINCT (detailed_auction.auction_id), detailed_auction.deadline, detailed_auction.minimum_rise, " +
                 "detailed_auction.starting_price, detailed_auction.max_offer " +
                 "FROM detailed_auction " +
                 "JOIN item ON detailed_auction.auction_id = item.auction_id " +

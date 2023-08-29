@@ -1,4 +1,5 @@
-package com.polimi.tiw_asteonline_ria.api;
+
+package com.polimi.tiw_asteonline_ria.controllers;
 import com.google.gson.Gson;
 import com.polimi.tiw_asteonline_ria.beans.Auction;
 import com.polimi.tiw_asteonline_ria.beans.Item;
@@ -7,6 +8,7 @@ import com.polimi.tiw_asteonline_ria.beans.User;
 import com.polimi.tiw_asteonline_ria.dao.AuctionDAO;
 import com.polimi.tiw_asteonline_ria.dao.ItemDAO;
 import com.polimi.tiw_asteonline_ria.dao.OfferDAO;
+import com.polimi.tiw_asteonline_ria.utils.Checks;
 import com.polimi.tiw_asteonline_ria.utils.ConnectionHandler;
 
 import javax.servlet.ServletException;
@@ -20,12 +22,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-@WebServlet("/AuctionDetails")
-public class AuctionDetails extends HttpServlet {
+@WebServlet("/OffersAuction")
+public class OffersAuction extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
 
-    public AuctionDetails() {
+    public OffersAuction() {
         super();
     }
 
@@ -42,7 +44,7 @@ public class AuctionDetails extends HttpServlet {
 
         int auctionID;
         try {
-            auctionID = Integer.parseInt(request.getParameter("id"));
+            auctionID = Integer.parseInt(request.getParameter("auction_id"));
         } catch (NumberFormatException | NullPointerException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
@@ -58,31 +60,21 @@ public class AuctionDetails extends HttpServlet {
         List<Item> items;
         List<Offer> offers;
         try {
-            /*
-            CHECK ABOUT PERMISSION TO READ AN AUCTION
-            if(auction.getStatus() == 0) {
-                if(auction.getNameBuyer() != user.get && auction.getUserID() != userID) {
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    response.setContentType("application/json");
-                    response.getWriter().write(new Gson().toJson(new Error("You are not allowed to see this auction")));
-                    return;
-                }
-            }
-             */
             auction = auctionDAO.getAuctionDetailedById(auctionID);
             offers = offerDAO.getAllOffersForAuction(auctionID);
             items = itemDAO.getItemsByAuctionId(auctionID);
 
-            /*
-            if(userID != auction.getUserId()){
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "You are not the owner of this auction");
+            if(userID == auction.getUserId()){
+                response.getWriter().write(new Gson().toJson(new Error("You are the owner, you can't see to do offer")));
                 return;
             }
-             */
-
+            if (auction.getStatus() == 0) {
+                response.getWriter().write(new Gson().toJson(new Error("Auction close")));
+                return;
+            }
             auction.setOffers(offers);
             auction.setItems(items);
-            auction.setItemsCodeName(auction.createItemsCodeName());
+            auction.setItemsCodeName(Checks.createItemsCodeName(auction.getItems()));
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setContentType("application/json");
@@ -102,3 +94,4 @@ public class AuctionDetails extends HttpServlet {
         }
     }
 }
+

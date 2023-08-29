@@ -11,7 +11,7 @@ import java.io.IOException;
 @WebFilter(
         description = "Check if the user is logged in",
         urlPatterns = {"/Logout", "/AuctionDetails","/AvailableItems","/CloseAuction","/CreateAuction",
-                "/CreateItem","/CreateOffer","/Search","/UserAuctions","/WonAuctions",
+                "/CreateItem","/CreateOffer","/Search","/UserAuctions","/WonAuctions","/OffersAuction",
                 "/GetImage/*"}
 )
 public class LoginFilter implements Filter {

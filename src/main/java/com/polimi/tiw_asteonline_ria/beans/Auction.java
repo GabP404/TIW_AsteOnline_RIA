@@ -86,14 +86,6 @@ public class Auction {
         this.minOfferToMake = minOfferToMake;
     }
 
-    public String createItemsCodeName() {
-        String itemsCodeName = "";
-        for (Item item : items) {
-            itemsCodeName += "["+item.getCode() + "]" +"-" +item.getName() + " ";
-        }
-        return itemsCodeName;
-    }
-
     public String getItemsCodeName() {
         return itemsCodeName;
     }
