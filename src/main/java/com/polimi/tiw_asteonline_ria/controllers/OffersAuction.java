@@ -61,7 +61,7 @@ public class OffersAuction extends HttpServlet {
         List<Offer> offers;
         try {
             auction = auctionDAO.getAuctionDetailedById(auctionID);
-            offers = offerDAO.getAllOffersForAuction(auctionID);
+            offers = offerDAO.getAllOffersForAuction(auctionID,1);
             items = itemDAO.getItemsByAuctionId(auctionID);
 
             if(userID == auction.getUserId()){

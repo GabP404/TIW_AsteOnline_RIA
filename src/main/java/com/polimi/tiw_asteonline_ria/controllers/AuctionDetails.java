@@ -61,7 +61,7 @@ public class AuctionDetails extends HttpServlet {
         try {
 
             auction = auctionDAO.getAuctionDetailedById(auctionID);
-            offers = offerDAO.getAllOffersForAuction(auctionID);
+            offers = offerDAO.getAllOffersForAuction(auctionID,0);
             items = itemDAO.getItemsByAuctionId(auctionID);
             auction.setOffers(offers);
             auction.setItems(items);

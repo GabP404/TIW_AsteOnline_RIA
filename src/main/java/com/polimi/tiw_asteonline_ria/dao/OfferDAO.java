@@ -16,10 +16,15 @@ public class OfferDAO {
         this.connection = connection;
     }
 
-    public List<Offer> getAllOffersForAuction(int auctionId) throws SQLException {
+    public List<Offer> getAllOffersForAuction(int auctionId, int order) throws SQLException {
         String query = "SELECT offer.offer_id, offer.user_id, offer.auction_id, offer.price, offer.created_at, user.username " +
                 "FROM offer JOIN user ON offer.user_id = user.user_id " +
-                "WHERE auction_id = ?";
+                "WHERE auction_id = ? ORDER BY created_at";
+        if (order == 0)
+            query += " ASC";
+        else
+            query += " DESC";
+
         List<Offer> offers = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, auctionId);
@@ -39,7 +44,6 @@ public class OfferDAO {
         return offers;
     }
 
-
     public boolean createOffer(int userId, int auctionId, double price) throws SQLException {
         String query = "INSERT INTO offer (user_id, auction_id, price, created_at) VALUES (?, ?, ?, NOW())";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -50,7 +54,4 @@ public class OfferDAO {
             return rowsAffected > 0;
         }
     }
-
-
-
 }

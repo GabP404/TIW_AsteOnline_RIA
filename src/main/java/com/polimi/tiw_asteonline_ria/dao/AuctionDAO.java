@@ -115,7 +115,7 @@ public class AuctionDAO {
                 "WHERE (LOWER(item.name) LIKE CONCAT('%', LOWER(?), '%') OR LOWER(item.description) LIKE CONCAT('%', LOWER(?), '%')) " +
                 "AND detailed_auction.status = 1 " +
                 "AND detailed_auction.deadline > CURRENT_TIMESTAMP " +
-                "AND detailed_auction.created_by_user_id != ?;";
+                "AND detailed_auction.created_by_user_id != ? ORDER BY deadline DESC";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, search);
         preparedStatement.setString(2, search);
@@ -167,7 +167,7 @@ public class AuctionDAO {
 
 
     public List<Auction> getAuctionsCreatedByUser(int userId, int status) throws SQLException {
-        String query = "SELECT * FROM detailed_auction WHERE created_by_user_id = ? AND status = ?";
+        String query = "SELECT * FROM detailed_auction WHERE created_by_user_id = ? AND status = ? ORDER BY deadline ASC";
         List<Auction> auctions = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, userId);

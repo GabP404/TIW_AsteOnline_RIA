@@ -1,5 +1,12 @@
 'use strict'; // Execute JavaScript in strict mode
 
+/*
+if (localStorage.getItem( 'user_id') !== null) {
+    window.location.href = 'home.html';
+}
+
+ */
+
 document.getElementById('login-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -14,7 +21,7 @@ document.getElementById('login-form').addEventListener('submit', function (event
                 switch (req.status) {
                     case 200: // Successful login
                         let response = JSON.parse(req.responseText);
-                        saveUser(response);
+                        saveUserAfterLogin(response);
                         window.location.href = 'home.html';
                         return;
                     default: // Error
