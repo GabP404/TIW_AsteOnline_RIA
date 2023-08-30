@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 
 
-public class Checks {
+public class AuctionsUtilities {
     public static boolean hasDuplicates(int[] arr) {
         return Arrays.stream(arr)
                 .boxed()

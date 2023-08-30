@@ -4,7 +4,7 @@ import com.polimi.tiw_asteonline_ria.beans.Item;
 import com.polimi.tiw_asteonline_ria.beans.User;
 import com.polimi.tiw_asteonline_ria.dao.AuctionDAO;
 import com.polimi.tiw_asteonline_ria.dao.ItemDAO;
-import com.polimi.tiw_asteonline_ria.utils.Checks;
+import com.polimi.tiw_asteonline_ria.utils.AuctionsUtilities;
 import com.polimi.tiw_asteonline_ria.utils.ConnectionHandler;
 
 import javax.servlet.ServletException;
@@ -67,14 +67,14 @@ public class CreateAuction extends HttpServlet {
             return;
         }
 
-        if (Checks.hasDuplicates(codes_int)) {
+        if (AuctionsUtilities.hasDuplicates(codes_int)) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resp.setContentType("application/json");
             resp.getWriter().println(new Gson().toJson(new Error("Duplicate items")));
             return;
         }
 
-        if (Checks.hasNegatives(codes_int)) {
+        if (AuctionsUtilities.hasNegatives(codes_int)) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             resp.setContentType("application/json");
             resp.getWriter().println(new Gson().toJson(new Error("Negative items codes")));

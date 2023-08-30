@@ -1,7 +1,7 @@
 package com.polimi.tiw_asteonline_ria.dao;
 
 import com.polimi.tiw_asteonline_ria.beans.Auction;
-import com.polimi.tiw_asteonline_ria.utils.Checks;
+import com.polimi.tiw_asteonline_ria.utils.AuctionsUtilities;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -58,8 +58,8 @@ public class AuctionDAO {
                     }
                     auction.setShippingAddressBuyer(resultSet.getString("shipping_address"));
                     auction.setIdBuyer(resultSet.getInt("offered_by_user_id"));
-                    auction.setExpired(Checks.checkExpired(auction.getDeadline()));
-                    auction.setTimeRemaining(Checks.calculateTimeRemaining(auction.getDeadline()));
+                    auction.setExpired(AuctionsUtilities.checkExpired(auction.getDeadline()));
+                    auction.setTimeRemaining(AuctionsUtilities.calculateTimeRemaining(auction.getDeadline()));
                     if (auction.getMaxOffer() == 0)
                         auction.setMinOfferToMake(auction.getStartingPrice());
                     else
@@ -85,8 +85,8 @@ public class AuctionDAO {
                     auction.setDeadline(resultSet.getTimestamp("deadline"));
                     auction.setMaxOffer(resultSet.getDouble("max_offer"));
                     auction.setStatus(resultSet.getInt("status"));
-                    auction.setExpired(Checks.checkExpired(auction.getDeadline()));
-                    auction.setTimeRemaining(Checks.calculateTimeRemaining(auction.getDeadline()));
+                    auction.setExpired(AuctionsUtilities.checkExpired(auction.getDeadline()));
+                    auction.setTimeRemaining(AuctionsUtilities.calculateTimeRemaining(auction.getDeadline()));
                     if (auction.getMaxOffer() == 0)
                         auction.setMinOfferToMake(auction.getStartingPrice());
                     else
@@ -130,8 +130,8 @@ public class AuctionDAO {
             auction.setStartingPrice(result.getFloat("starting_price"));
             auction.setMinimumRise(result.getInt("minimum_rise"));
             auction.setMaxOffer(result.getDouble("max_offer"));
-            auction.setExpired(Checks.checkExpired(auction.getDeadline()));
-            auction.setTimeRemaining(Checks.calculateTimeRemaining(auction.getDeadline()));
+            auction.setExpired(AuctionsUtilities.checkExpired(auction.getDeadline()));
+            auction.setTimeRemaining(AuctionsUtilities.calculateTimeRemaining(auction.getDeadline()));
             auctions.add(auction);
         }
         result.close();
@@ -156,8 +156,8 @@ public class AuctionDAO {
                     auction.setUserId(resultSet.getInt("offered_by_user_id"));
                     auction.setMaxOffer(resultSet.getDouble("max_offer"));
                     auction.setDeadline(resultSet.getTimestamp("deadline"));
-                    auction.setExpired(Checks.checkExpired(auction.getDeadline()));
-                    auction.setTimeRemaining(Checks.calculateTimeRemaining(auction.getDeadline()));
+                    auction.setExpired(AuctionsUtilities.checkExpired(auction.getDeadline()));
+                    auction.setTimeRemaining(AuctionsUtilities.calculateTimeRemaining(auction.getDeadline()));
                     auctions.add(auction);
                 }
             }
@@ -183,8 +183,8 @@ public class AuctionDAO {
                     auction.setMaxOffer(resultSet.getDouble("max_offer"));
                     auction.setStatus(resultSet.getInt("status"));
                     auction.setIdBuyer(resultSet.getInt("offered_by_user_id"));
-                    auction.setExpired(Checks.checkExpired(auction.getDeadline()));
-                    auction.setTimeRemaining(Checks.calculateTimeRemaining(auction.getDeadline()));
+                    auction.setExpired(AuctionsUtilities.checkExpired(auction.getDeadline()));
+                    auction.setTimeRemaining(AuctionsUtilities.calculateTimeRemaining(auction.getDeadline()));
                     if (auction.getMaxOffer() == 0)
                         auction.setMinOfferToMake(auction.getStartingPrice());
                     else

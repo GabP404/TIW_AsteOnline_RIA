@@ -8,7 +8,7 @@ import com.polimi.tiw_asteonline_ria.beans.User;
 import com.polimi.tiw_asteonline_ria.dao.AuctionDAO;
 import com.polimi.tiw_asteonline_ria.dao.ItemDAO;
 import com.polimi.tiw_asteonline_ria.dao.OfferDAO;
-import com.polimi.tiw_asteonline_ria.utils.Checks;
+import com.polimi.tiw_asteonline_ria.utils.AuctionsUtilities;
 import com.polimi.tiw_asteonline_ria.utils.ConnectionHandler;
 
 import javax.servlet.ServletException;
@@ -74,7 +74,7 @@ public class OffersAuction extends HttpServlet {
             }
             auction.setOffers(offers);
             auction.setItems(items);
-            auction.setItemsCodeName(Checks.createItemsCodeName(auction.getItems()));
+            auction.setItemsCodeName(AuctionsUtilities.createItemsCodeName(auction.getItems()));
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setContentType("application/json");
