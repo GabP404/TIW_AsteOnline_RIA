@@ -113,6 +113,12 @@ public class CreateAuction extends HttpServlet {
                 resp.getWriter().println(new Gson().toJson(new Error("Invalid item")));
                 return;
             }
+            if(item.getUserId() != userID) {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                resp.setContentType("application/json");
+                resp.getWriter().println(new Gson().toJson(new Error("Invalid item")));
+                return;
+            }
             starting_price += item.getPrice();
         }
 

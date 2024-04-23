@@ -799,14 +799,6 @@
             tr.appendChild(td);
 
             td = document.createElement('td');
-            if (auction.nameBuyer === undefined) {
-                td.textContent = 'Nessun aggiudicatario';
-            } else {
-                td.textContent = auction.nameBuyer;
-            }
-            tr.appendChild(td);
-
-            td = document.createElement('td');
             if (auction.maxOffer == 0) {
                 td.textContent = 'Nessuna offerta';
             } else {
